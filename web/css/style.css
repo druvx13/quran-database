@@ -393,11 +393,14 @@ body {
     background: var(--bg-light);
     border-radius: 8px;
     transition: var(--transition);
+    opacity: 0.7;
 }
 
-.verse:hover {
+.verse:hover,
+.verse.verse-active {
     background: white;
     box-shadow: var(--shadow);
+    opacity: 1;
 }
 
 .verse-text {

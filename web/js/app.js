@@ -36,14 +36,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
+                    entry.target.classList.add('verse-active');
+                } else {
+                    entry.target.classList.remove('verse-active');
                 }
             });
         }, observerOptions);
         
         verses.forEach(verse => {
-            verse.style.opacity = '0.7';
-            verse.style.transition = 'opacity 0.3s ease';
             observer.observe(verse);
         });
     }
@@ -103,8 +103,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Save scroll position
-    if (localStorage.getItem('scrollPosition')) {
-        window.scrollTo(0, parseInt(localStorage.getItem('scrollPosition')));
+    const savedPosition = localStorage.getItem('scrollPosition');
+    if (savedPosition !== null) {
+        const position = parseInt(savedPosition, 10);
+        if (!isNaN(position)) {
+            window.scrollTo(0, position);
+        }
         localStorage.removeItem('scrollPosition');
     }
     

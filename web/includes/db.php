@@ -95,11 +95,14 @@ function getChapter($db, $id) {
  * @return array List of matching chapters
  */
 function searchChapters($db, $query) {
+    // Escape LIKE wildcards to prevent injection
+    $escapedQuery = str_replace(['%', '_'], ['\%', '\_'], $query);
+    
     $stmt = $db->prepare("SELECT id, name_ar, name_pron_en, class, verses_number 
                           FROM chapters 
                           WHERE name_ar LIKE ? OR name_pron_en LIKE ? 
                           ORDER BY id");
-    $searchTerm = "%{$query}%";
+    $searchTerm = "%{$escapedQuery}%";
     $stmt->execute([$searchTerm, $searchTerm]);
     return $stmt->fetchAll();
 }
