@@ -1,0 +1,19 @@
+# PHP
+vendor/
+composer.lock
+
+# Database config (if contains sensitive data)
+web/includes/config.local.php
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
