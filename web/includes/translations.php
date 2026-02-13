@@ -47,17 +47,33 @@ function loadTranslation($translationFile, $chapterId) {
         return [];
     }
     
-    // Try to load from cache first (for better performance)
-    $cacheKey = md5($translationFile . '_' . $chapterId);
-    $cacheFile = sys_get_temp_dir() . '/quran_cache_' . $cacheKey . '.php';
+    // Validate file is actually an XML file
+    if (pathinfo($filePath, PATHINFO_EXTENSION) !== 'xml') {
+        return [];
+    }
     
-    if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < 86400)) {
-        // Cache is less than 24 hours old
-        return include $cacheFile;
+    // Try to load from cache first (for better performance)
+    $cacheKey = md5($translationFile . '_' . $chapterId . '_' . filemtime($filePath));
+    $cacheDir = sys_get_temp_dir() . '/quran_translations';
+    $cacheFile = $cacheDir . '/cache_' . $cacheKey . '.json';
+    
+    // Check if cache directory exists and is writable
+    if (!is_dir($cacheDir)) {
+        @mkdir($cacheDir, 0700, true);
+    }
+    
+    if (file_exists($cacheFile) && is_readable($cacheFile)) {
+        $cachedData = @file_get_contents($cacheFile);
+        if ($cachedData !== false) {
+            $verses = json_decode($cachedData, true);
+            if (is_array($verses)) {
+                return $verses;
+            }
+        }
     }
     
     // Load and parse XML
-    $xml = simplexml_load_file($filePath);
+    $xml = @simplexml_load_file($filePath);
     if (!$xml) {
         return [];
     }
@@ -86,9 +102,12 @@ function loadTranslation($translationFile, $chapterId) {
                 ];
             }
             
-            // Cache the result
-            if (!empty($verses)) {
-                file_put_contents($cacheFile, '<?php return ' . var_export($verses, true) . ';');
+            // Cache the result using JSON instead of PHP code
+            if (!empty($verses) && is_writable($cacheDir)) {
+                $jsonData = json_encode($verses);
+                if ($jsonData !== false) {
+                    @file_put_contents($cacheFile, $jsonData, LOCK_EX);
+                }
             }
             
             break;
@@ -129,8 +148,11 @@ function getTranslationMetadata($translationFile) {
  * Clear translation cache
  */
 function clearTranslationCache() {
-    $cacheFiles = glob(sys_get_temp_dir() . '/quran_cache_*.php');
-    foreach ($cacheFiles as $file) {
-        @unlink($file);
+    $cacheDir = sys_get_temp_dir() . '/quran_translations';
+    if (is_dir($cacheDir)) {
+        $cacheFiles = glob($cacheDir . '/cache_*.json');
+        foreach ($cacheFiles as $file) {
+            @unlink($file);
+        }
     }
 }

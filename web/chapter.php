@@ -4,6 +4,9 @@
  * Displays the content of a specific chapter
  */
 
+// Start session at the beginning
+session_start();
+
 require_once 'includes/db.php';
 require_once 'includes/translations.php';
 
@@ -16,7 +19,6 @@ $selectedTranslation = isset($_GET['translation']) ? $_GET['translation'] :
 
 // Save selection to session
 if ($selectedTranslation) {
-    session_start();
     $_SESSION['translation'] = $selectedTranslation;
 }
 
