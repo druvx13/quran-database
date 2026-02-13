@@ -5,9 +5,20 @@
  */
 
 require_once 'includes/db.php';
+require_once 'includes/translations.php';
 
 // Get chapter ID from URL
 $chapterId = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// Get selected translation from URL or session
+$selectedTranslation = isset($_GET['translation']) ? $_GET['translation'] : 
+    (isset($_SESSION['translation']) ? $_SESSION['translation'] : '');
+
+// Save selection to session
+if ($selectedTranslation) {
+    session_start();
+    $_SESSION['translation'] = $selectedTranslation;
+}
 
 if ($chapterId < 1 || $chapterId > 114) {
     header('Location: index.php');
@@ -23,7 +34,7 @@ try {
         exit;
     }
     
-    // Parse verses from content
+    // Parse verses from content (Arabic)
     $verses = [];
     if ($chapter['content']) {
         // The content contains verses in format: text [number]
@@ -35,6 +46,17 @@ try {
             ];
         }
     }
+    
+    // Load translation if selected
+    $translationVerses = [];
+    $translationMeta = null;
+    if ($selectedTranslation) {
+        $translationVerses = loadTranslation($selectedTranslation, $chapterId);
+        $translationMeta = getTranslationMetadata($selectedTranslation);
+    }
+    
+    // Get available translations
+    $availableTranslations = getAvailableTranslations();
     
 } catch (Exception $e) {
     $error = "Database error: " . $e->getMessage();
@@ -79,6 +101,27 @@ try {
             </div>
         </header>
 
+        <!-- Translation Selector -->
+        <?php if (count($availableTranslations) > 0): ?>
+            <div class="translation-selector">
+                <form method="GET" action="chapter.php" class="translation-form">
+                    <input type="hidden" name="id" value="<?= $chapterId ?>">
+                    <label for="translation" class="translation-label">
+                        📖 Select Translation:
+                    </label>
+                    <select name="translation" id="translation" class="translation-select" onchange="this.form.submit()">
+                        <option value="">Arabic Only</option>
+                        <?php foreach ($availableTranslations as $trans): ?>
+                            <option value="<?= htmlspecialchars($trans['file']) ?>" 
+                                    <?= $selectedTranslation == $trans['file'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($trans['writer']) ?> - <?= htmlspecialchars($trans['language']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
+            </div>
+        <?php endif; ?>
+
         <!-- Bismillah (except for Chapter 9) -->
         <?php if ($chapterId != 1 && $chapterId != 9): ?>
             <div class="bismillah">
@@ -94,9 +137,16 @@ try {
         <?php elseif (count($verses) > 0): ?>
             <div class="verses-container">
                 <?php foreach ($verses as $verse): ?>
-                    <div class="verse" id="verse-<?= $verse['number'] ?>">
-                        <div class="verse-text">
-                            <?= htmlspecialchars($verse['text']) ?>
+                    <div class="verse <?= $selectedTranslation ? 'with-translation' : '' ?>" id="verse-<?= $verse['number'] ?>">
+                        <div class="verse-content">
+                            <div class="verse-text verse-arabic">
+                                <?= htmlspecialchars($verse['text']) ?>
+                            </div>
+                            <?php if ($selectedTranslation && isset($translationVerses[$verse['number']])): ?>
+                                <div class="verse-translation" dir="<?= $translationMeta['direction'] ?>">
+                                    <?= htmlspecialchars($translationVerses[$verse['number']]['text']) ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="verse-number">
                             <span class="verse-badge"><?= $verse['number'] ?></span>

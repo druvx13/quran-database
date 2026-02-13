@@ -6,11 +6,21 @@ A beautiful, responsive PHP web application for browsing the Holy Quran database
 
 - 📱 **Mobile-Responsive Design** - Works perfectly on smartphones, tablets, and desktops
 - 🔍 **Search Functionality** - Search chapters by Arabic or English names
+- 📖 **Translation Support** - View English translations and transliterations alongside Arabic text
 - 🎨 **Beautiful UI** - Modern, clean interface with Islamic-themed colors
 - ⚡ **Fast & Lightweight** - Minimal dependencies, pure PHP and vanilla JavaScript
 - 🌐 **RTL Support** - Proper right-to-left display for Arabic text
 - ⌨️ **Keyboard Navigation** - Navigate between chapters using arrow keys
-- 📖 **Easy Reading** - Clear typography optimized for Quranic text
+- 📝 **Easy Reading** - Clear typography optimized for Quranic text
+
+## Available Translations
+
+The application includes support for XML translation files:
+
+- **Pickthall Translation** - English translation by Mohammed Marmaduke Pickthall
+- **English Transliteration** - Romanized Arabic transliteration
+
+Additional translations can be added by placing XML files in the root directory.
 
 ## Requirements
 
@@ -68,13 +78,14 @@ To use MySQL or PostgreSQL instead:
 ```
 web/
 ├── index.php           # Main page - lists all chapters
-├── chapter.php         # Chapter view - displays verses
+├── chapter.php         # Chapter view - displays verses with translations
 ├── css/
 │   └── style.css      # Responsive stylesheet
 ├── js/
 │   └── app.js         # JavaScript for interactivity
 └── includes/
-    └── db.php         # Database configuration and functions
+    ├── db.php         # Database configuration and functions
+    └── translations.php  # Translation loading and caching
 ```
 
 ## Features Explained
@@ -84,8 +95,15 @@ web/
 - Real-time filtering of chapters
 - Clear button to reset search
 
+### Translation Support
+- Select from available translations using the dropdown menu
+- View Arabic text alongside English translation or transliteration
+- Translation selection is preserved in your session
+- Automatic caching for better performance
+
 ### Chapter View
 - Beautiful display of verses with proper Arabic typography
+- Optional translation display below each verse
 - Verse numbers displayed clearly
 - Navigation to previous/next chapters
 - Keyboard shortcuts:

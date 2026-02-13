@@ -17,6 +17,7 @@ Then open `http://localhost:8000` in your browser.
 Features:
 - 📱 Mobile-responsive design
 - 🔍 Search by Arabic or English names
+- 📖 Translation support (Pickthall, Transliteration)
 - 🎨 Beautiful, modern UI
 - ⌨️ Keyboard navigation support
 
@@ -24,12 +25,17 @@ See [web/README.md](web/README.md) for detailed documentation.
 
 ## Available Formats
 
-This database is available in multiple SQL formats to support different database systems:
+This database is available in multiple formats:
 
+**SQL Database Files:**
 - **quran.sql** - Generic SQL format (SQLite compatible)
 - **quran_mysql.sql** - MySQL/MariaDB compatible SQL with proper UTF-8 support
 - **quran_postgresql.sql** - PostgreSQL compatible SQL
 - **quran.sqlite** - Original SQLite database file
+
+**Translation Files (XML):**
+- **English-Pickthall-60.xml** - English translation by Mohammed Marmaduke Pickthall
+- **English-Transliteration-63.xml** - Romanized Arabic transliteration
 
 ## Columns
 
