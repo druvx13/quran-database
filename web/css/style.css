@@ -1,0 +1,588 @@
+/**
+ * Quran Database - Responsive Stylesheet
+ * Mobile-first design with beautiful Arabic typography
+ */
+
+/* ==================== 
+   CSS Variables & Reset 
+   ==================== */
+:root {
+    --primary-color: #2c5f2d;
+    --primary-light: #3a7a3c;
+    --primary-dark: #1f4620;
+    --secondary-color: #d4af37;
+    --text-dark: #1a1a1a;
+    --text-light: #666;
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8eff5 100%);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Arabic text styling */
+*[lang="ar"], .chapter-name-ar, .chapter-title-ar, .verse-text, .bismillah {
+    font-family: 'Traditional Arabic', 'Scheherazade', 'Amiri', 'Arial Unicode MS', sans-serif;
+    direction: rtl;
+}
+
+/* ==================== 
+   Container & Layout 
+   ==================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ==================== 
+   Header 
+   ==================== */
+.header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: white;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+.header-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-subtitle {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    opacity: 0.95;
+}
+
+.header-description {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* ==================== 
+   Search Bar 
+   ==================== */
+.search-container {
+    margin-bottom: 30px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.1);
+}
+
+.search-button {
+    padding: 12px 24px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.clear-search {
+    padding: 12px 20px;
+    background: var(--text-light);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.clear-search:hover {
+    background: var(--text-dark);
+}
+
+/* ==================== 
+   Messages 
+   ==================== */
+.search-results-info {
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.no-results p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: var(--text-light);
+}
+
+/* ==================== 
+   Chapters Grid 
+   ==================== */
+.chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.chapter-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transform: scaleX(0);
+    transition: var(--transition);
+}
+
+.chapter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.chapter-card:hover::before {
+    transform: scaleX(1);
+}
+
+.chapter-number {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.chapter-info {
+    flex: 1;
+}
+
+.chapter-name-ar {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
+.chapter-name-en {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: 15px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.chapter-type {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.chapter-verses {
+    color: var(--text-light);
+}
+
+/* ==================== 
+   Chapter View Page 
+   ==================== */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.navigation-bottom {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border-color);
+}
+
+.nav-back, .nav-prev, .nav-next {
+    padding: 10px 20px;
+    background: white;
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.nav-back:hover, .nav-prev:hover, .nav-next:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.nav-pagination {
+    display: flex;
+    gap: 10px;
+}
+
+.chapter-header {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+.chapter-number-large {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.chapter-title-ar {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.chapter-title-en {
+    font-size: 1.8rem;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.chapter-meta-info {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 1.1rem;
+}
+
+.meta-item {
+    color: var(--text-light);
+}
+
+.meta-item strong {
+    color: var(--primary-color);
+}
+
+.bismillah {
+    text-align: center;
+    font-size: 2rem;
+    padding: 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+.verses-container {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.verse {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-right: 4px solid var(--primary-color);
+    background: var(--bg-light);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.verse:hover {
+    background: white;
+    box-shadow: var(--shadow);
+}
+
+.verse-text {
+    font-size: 1.6rem;
+    line-height: 2.2;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.verse-number {
+    text-align: left;
+    direction: ltr;
+}
+
+.verse-badge {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.no-content {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* ==================== 
+   Footer 
+   ==================== */
+.footer {
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 40px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.footer p {
+    margin-bottom: 5px;
+}
+
+.footer-license {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* ==================== 
+   Buttons 
+   ==================== */
+.btn-primary {
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ==================== 
+   Responsive Design 
+   ==================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .header-title {
+        font-size: 2rem;
+    }
+    
+    .header-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .chapters-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .chapter-title-ar {
+        font-size: 2.2rem;
+    }
+    
+    .chapter-title-en {
+        font-size: 1.4rem;
+    }
+    
+    .verse-text {
+        font-size: 1.3rem;
+        line-height: 2;
+    }
+    
+    .bismillah {
+        font-size: 1.5rem;
+        padding: 20px;
+    }
+    
+    .navigation {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .nav-pagination {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .nav-back {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 30px 15px;
+    }
+    
+    .header-title {
+        font-size: 1.8rem;
+    }
+    
+    .search-form {
+        padding: 15px;
+    }
+    
+    .search-input, .search-button, .clear-search {
+        width: 100%;
+    }
+    
+    .chapter-meta-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .verse-text {
+        font-size: 1.2rem;
+    }
+    
+    .verses-container {
+        padding: 15px;
+    }
+}
+
+/* ==================== 
+   Animations 
+   ==================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chapter-card, .verse {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ==================== 
+   Print Styles 
+   ==================== */
+@media print {
+    .navigation, .search-container, .footer {
+        display: none;
+    }
+    
+    .verse {
+        break-inside: avoid;
+    }
+}

@@ -3,6 +3,25 @@ Database for Holy Quran in multiple SQL formats
 
 ![qurandatabase](https://1.bp.blogspot.com/-KUEEmvbbYqM/XrrhnukyH5I/AAAAAAAAORQ/n5KGkW-GikUbP_wGwGQHT3DmB-K-HZD-gCK4BGAsYHg/d/chapters.png)
 
+## Web Application 🌐
+
+A beautiful, responsive PHP web application is included for browsing the Quran database!
+
+**Quick Start:**
+```bash
+cd web
+php -S localhost:8000
+```
+Then open `http://localhost:8000` in your browser.
+
+Features:
+- 📱 Mobile-responsive design
+- 🔍 Search by Arabic or English names
+- 🎨 Beautiful, modern UI
+- ⌨️ Keyboard navigation support
+
+See [web/README.md](web/README.md) for detailed documentation.
+
 ## Available Formats
 
 This database is available in multiple SQL formats to support different database systems:
